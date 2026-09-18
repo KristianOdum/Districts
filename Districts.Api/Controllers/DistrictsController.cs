@@ -1,4 +1,4 @@
-﻿using Districts.Core.Models;
+﻿using Districts.Api.ModelDtos;
 using Districts.Infra.Repositories;
 using Microsoft.AspNetCore.Mvc;
 

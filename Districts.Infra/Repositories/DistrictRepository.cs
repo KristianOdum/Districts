@@ -1,4 +1,4 @@
-﻿using Districts.Core.Models;
+﻿using Districts.Domain.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 

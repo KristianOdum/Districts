@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Districts.Wpf", "Districts.Wpf\Districts.Wpf.csproj", "{172543B1-EC12-41AA-B667-9D22AE718858}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Districts.Core", "Districts.Core\Districts.Core.csproj", "{B6ABB6C8-4725-4456-9866-D84EF2E50596}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Districts.Domain", "Districts.Domain\Districts.Domain.csproj", "{B6ABB6C8-4725-4456-9866-D84EF2E50596}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Districts.Api", "Districts.Api\Districts.Api.csproj", "{D1934FD2-C0B8-4D72-94F7-05FE14FC6596}"
 EndProject

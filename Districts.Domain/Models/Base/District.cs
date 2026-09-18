@@ -1,4 +1,4 @@
-﻿namespace Districts.Core.Models;
+﻿namespace Districts.Domain.Models;
 
 public class District(int id, string name)
 {

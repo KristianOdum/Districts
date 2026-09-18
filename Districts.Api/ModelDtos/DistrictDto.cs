@@ -1,4 +1,4 @@
-﻿namespace Districts.Core.Models;
+﻿namespace Districts.Api.ModelDtos;
 
 public class DistrictDto(int id, string name)
 {
