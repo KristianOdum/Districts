@@ -22,7 +22,7 @@ builder.Services.AddScoped(_ => new TestRepository(connectionString));
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseExceptionHandler();
 
 // Map API controllers to their routes, e.g. /api/districts.

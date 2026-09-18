@@ -7,12 +7,18 @@ namespace Districts.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class DistrictsController(IDistrictRepository repository, GetDistrictDetailsQueryHandler getDistrictDetailsQueryHandler) : ControllerBase
+public class DistrictsController(
+    IDistrictRepository repository, 
+    GetDistrictDetailsQueryHandler getDistrictDetailsQueryHandler,
+    ILogger<DistrictsController> logger
+    ) : ControllerBase
 {
     [HttpGet]
     public async Task<ActionResult<List<DistrictDto>>> GetDistricts()
     {
         var districts = await repository.GetDistrictsAsync();
+        
+        logger.LogInformation("Found {Count} total districts", districts.Count);
 
         return Ok(districts.Select(DistrictDto.FromDomain));
     }
@@ -26,6 +32,7 @@ public class DistrictsController(IDistrictRepository repository, GetDistrictDeta
 
         if (result is null)
         {
+            logger.LogWarning("District {Id} was not found", id);
             return NotFound();
         }
 
