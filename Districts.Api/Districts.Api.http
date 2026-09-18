@@ -5,3 +5,8 @@ GET {{ApiHost}}/api/districts
 Accept: application/json
 
 ###
+
+GET {{ApiHost}}/api/test/database-connection
+Accept: application/json
+
+###

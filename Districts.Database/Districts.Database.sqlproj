@@ -10,4 +10,8 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0" />
     </ItemGroup>
+    <ItemGroup>
+      <Build Remove="Scripts\PopulateTestDataA.sql" />
+      <None Include="Scripts\PopulateTestDataA.sql" />
+    </ItemGroup>
 </Project>
