@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build">
+    <Sdk Name="Microsoft.Build.Sql" Version="2.2.0"/>
+    <PropertyGroup>
+        <Name>Districts.Database</Name>
+        <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
+        <ModelCollation>1033, CI</ModelCollation>
+        <ProjectGuid>29284FC0-9BC7-4578-B5E3-A9923DC10399</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0" />
+    </ItemGroup>
+</Project>
