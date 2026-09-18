@@ -6,6 +6,11 @@ Accept: application/json
 
 ###
 
+GET {{ApiHost}}/api/districts/999
+Accept: application/json
+
+###
+
 GET {{ApiHost}}/api/districts
 Accept: application/json
 
