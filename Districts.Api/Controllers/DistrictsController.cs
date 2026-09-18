@@ -2,7 +2,6 @@
 using Districts.Application.Districts.Queries;
 using Districts.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Districts.Api.Dtos;
 
 namespace Districts.Api.Controllers;
 
@@ -15,14 +14,11 @@ public class DistrictsController(IDistrictRepository repository, GetDistrictDeta
     {
         var districts = await repository.GetDistrictsAsync();
 
-        var districtDtos =
-            districts.Select(district => new DistrictDto(district.Id, district.Name)).ToList();
-
-        return Ok(districtDtos);
+        return Ok(districts.Select(DistrictDto.FromDomain));
     }
     
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<DistrictDetails>> GetDistrictDetails(int id)
+    public async Task<ActionResult<DistrictDetailsDto>> GetDistrictDetails(int id)
     {
         var query = new GetDistrictDetailsQuery(id);
 
@@ -32,19 +28,7 @@ public class DistrictsController(IDistrictRepository repository, GetDistrictDeta
         {
             return NotFound();
         }
-        
-        var dto = new DistrictDetailsDto(
-            id: result.Id,
-            name: result.Name,
-            salespersons: [
-                .. result.Salespersons
-                    .Select(SalespersonDto.FromDomain)
-            ],
-            stores: [
-                .. result.Stores
-                    .Select(StoreDto.FromDomain)
-            ]);
 
-        return Ok(dto);
+        return Ok(DistrictDetailsDto.FromApplication(result));
     }
 }
