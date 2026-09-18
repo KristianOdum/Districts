@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[DistrictSalesperson]
 (
-    [DistrictId] INT NOT NULL,
-    [SalespersonId] INT NOT NULL,
-    [Role] NVARCHAR(50) NOT NULL,
+    [DistrictId]    INT          NOT NULL,
+    [SalespersonId] INT          NOT NULL,
+    [Role]          NVARCHAR(50) NOT NULL,
 
     CONSTRAINT [PK_DistrictSalesperson]
         PRIMARY KEY ([DistrictId], [SalespersonId]),

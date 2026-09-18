@@ -13,9 +13,9 @@ public class DistrictsController(DistrictRepository repository) : ControllerBase
     {
         var districts = await repository.GetDistrictsAsync();
 
-        var districtDtos = 
-            districts.Select(district => new DistrictDto(id: district.Id, name: district.Name)).ToList();
-        
+        var districtDtos =
+            districts.Select(district => new DistrictDto(district.Id, district.Name)).ToList();
+
         return Ok(districtDtos);
     }
 }

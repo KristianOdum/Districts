@@ -9,10 +9,10 @@ public class DistrictRepository(string connectionString)
     public async Task<List<District>> GetDistrictsAsync()
     {
         const string sql = """
-            SELECT Id, Name
-            FROM dbo.District
-            ORDER BY Name;
-        """;
+                               SELECT Id, Name
+                               FROM dbo.District
+                               ORDER BY Name;
+                           """;
 
         await using var connection = new SqlConnection(connectionString);
 

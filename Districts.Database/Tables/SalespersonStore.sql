@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[SalespersonStore]
 (
     [SalespersonId] INT NOT NULL,
-    [StoreId] INT NOT NULL,
+    [StoreId]       INT NOT NULL,
 
     CONSTRAINT [PK_SalespersonStore]
         PRIMARY KEY ([SalespersonId], [StoreId]),

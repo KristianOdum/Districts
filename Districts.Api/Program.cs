@@ -14,16 +14,11 @@ var connectionString = builder.Configuration.GetConnectionString("Districts")
 
 // Register the repository with dependency injection.
 // The API creates the repository, but the repository itself owns database access.
-builder.Services.AddScoped(
-    _ => new DistrictRepository(connectionString));
-builder.Services.AddScoped(
-    _ => new TestRepository(connectionString));
+builder.Services.AddScoped(_ => new DistrictRepository(connectionString));
+builder.Services.AddScoped(_ => new TestRepository(connectionString));
 
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+if (app.Environment.IsDevelopment()) app.MapOpenApi();
 app.UseHttpsRedirection();
 
 // Map API controllers to their routes, e.g. /api/districts.

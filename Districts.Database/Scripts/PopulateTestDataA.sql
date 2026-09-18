@@ -1,20 +1,18 @@
 ﻿-- Districts
 INSERT INTO dbo.District (Name)
-VALUES
-    ('Northern Denmark'),
-    ('Southern Denmark'),
-    ('Central Denmark'),
-    ('Zealand');
+VALUES ('Northern Denmark'),
+       ('Southern Denmark'),
+       ('Central Denmark'),
+       ('Zealand');
 
 
 -- Salespersons
 INSERT INTO dbo.Salesperson (EmployeeNumber, Name)
-VALUES
-    ('EMP00120250601', N'Julie Jensen'),
-    ('EMP00120200701', N'Søren Andreasen'),
-    ('EMP00220200701', N'Frederik Hansen'),
-    ('EMP00120120301', N'Johanne Schmidt Larsen'),
-    ('EMP00120261101', N'Kristian Nielsen');
+VALUES ('EMP00120250601', N'Julie Jensen'),
+       ('EMP00120200701', N'Søren Andreasen'),
+       ('EMP00220200701', N'Frederik Hansen'),
+       ('EMP00120120301', N'Johanne Schmidt Larsen'),
+       ('EMP00120261101', N'Kristian Nielsen');
 
 
 -- Stores  -> https://guide.michelin.com/en/dk/north-denmark/aalborg/restaurants
