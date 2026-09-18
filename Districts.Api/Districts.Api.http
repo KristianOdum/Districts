@@ -1,6 +1,11 @@
 @ApiHost = http://localhost:5294
 #@ApiHost = https://localhost:7026
 
+GET {{ApiHost}}/api/districts/1
+Accept: application/json
+
+###
+
 GET {{ApiHost}}/api/districts
 Accept: application/json
 

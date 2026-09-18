@@ -2,14 +2,14 @@
 
 namespace Districts.Api.Dtos;
 
-public class DistrictDto(int id, string name)
+public class StoreDto(int id, string name)
 {
     public int Id { get; } = id;
     public string Name { get; } = name;
-
-    public static DistrictDto FromDomain(District salesperson)
+    
+    public static StoreDto FromDomain(Store salesperson)
     {
-        return new DistrictDto(
+        return new StoreDto(
             id: salesperson.Id,
             name: salesperson.Name
         );

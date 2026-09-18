@@ -1,4 +1,5 @@
-using Districts.Infra;
+using Districts.Application.Districts.Queries;
+using Districts.Application.Interfaces;
 using Districts.Infra.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,8 @@ var connectionString = builder.Configuration.GetConnectionString("Districts")
 
 // Register the repository with dependency injection.
 // The API creates the repository, but the repository itself owns database access.
-builder.Services.AddScoped(_ => new DistrictRepository(connectionString));
+builder.Services.AddScoped<IDistrictRepository>(_ => new DistrictRepository(connectionString));
+builder.Services.AddScoped<GetDistrictDetailsQueryHandler>();
 builder.Services.AddScoped(_ => new TestRepository(connectionString));
 
 var app = builder.Build();
