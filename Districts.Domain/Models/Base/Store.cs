@@ -1,4 +1,4 @@
-﻿namespace Districts.Domain.Models;
+﻿namespace Districts.Domain.Models.Base;
 
 public class Store(int id, string name)
 {

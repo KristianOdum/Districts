@@ -8,6 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddProblemDetails();
+builder.Services.AddLogging(logging =>
+{
+    logging.AddConsole();
+});
 
 // Read the database connection string from appsettings.json.
 var connectionString = builder.Configuration.GetConnectionString("Districts")
@@ -23,7 +27,7 @@ builder.Services.AddScoped(_ => new TestRepository(connectionString));
 var app = builder.Build();
 if (app.Environment.IsDevelopment()) app.MapOpenApi();
 // app.UseHttpsRedirection();
-app.UseExceptionHandler();
+// app.UseExceptionHandler();
 
 // Map API controllers to their routes, e.g. /api/districts.
 app.MapControllers();

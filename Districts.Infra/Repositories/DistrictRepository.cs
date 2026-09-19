@@ -1,57 +1,99 @@
-﻿using Districts.Domain.Models;
+﻿using Districts.Domain.Models.Base;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using Districts.Application.Interfaces;
-using Districts.Domain;
 
 namespace Districts.Infra.Repositories;
 
 public class DistrictRepository(string connectionString) : IDistrictRepository
 {
-    // TODO: Implement "Each district ALWAYS has a SINGLE primary salesperson." with test
     public async Task<List<District>> GetDistrictsAsync()
     {
         const string sql = """
-                               SELECT Id, Name
-                               FROM dbo.District
-                               ORDER BY Name;
+                           SELECT
+                               d.Id,
+                               d.Name,
+                               s.Id,
+                               s.Name
+                           FROM dbo.District d
+                           INNER JOIN dbo.Salesperson s
+                               ON s.Id = d.PrimarySalespersonId;
                            """;
 
         await using var connection = new SqlConnection(connectionString);
+        await connection.OpenAsync();
 
-        var districts = await connection.QueryAsync<District>(sql);
+        await using var command = new SqlCommand(sql, connection);
+        await using var reader = await command.ExecuteReaderAsync();
 
-        return [.. districts];
+        var districts = new List<District>();
+
+        while (await reader.ReadAsync())
+        {
+            var salesperson = new Salesperson(
+                reader.GetInt32(2),
+                reader.GetString(3));
+
+            var district = new District(
+                reader.GetInt32(0),
+                reader.GetString(1),
+                salesperson);
+
+            districts.Add(district);
+        }
+
+        return districts;
     }
 
     public async Task<District?> GetDistrictAsync(int districtId)
     {
         const string sql = """
-                           SELECT Id, Name
-                           FROM dbo.District
-                           WHERE Id = @DistrictId
+                           SELECT
+                               d.Id,
+                               d.Name,
+                               s.Id,
+                               s.Name
+                           FROM dbo.District d
+                           INNER JOIN dbo.Salesperson s
+                               ON s.Id = d.PrimarySalespersonId
+                           WHERE d.Id = @DistrictId
                            """;
-        
+
         await using var connection = new SqlConnection(connectionString);
-        
-        return await connection.QuerySingleOrDefaultAsync<District>(
-            sql,
-            new { DistrictId = districtId });
+
+        await connection.OpenAsync();
+
+        await using var command = new SqlCommand(sql, connection);
+        command.Parameters.AddWithValue("@DistrictId", districtId);
+
+        await using var reader = await command.ExecuteReaderAsync();
+
+        if (!await reader.ReadAsync())
+        {
+            return null;
+        }
+
+        var salesperson = new Salesperson(
+            reader.GetInt32(2),
+            reader.GetString(3));
+
+        return new District(
+            reader.GetInt32(0),
+            reader.GetString(1),
+            salesperson);
     }
     
-    public async Task<List<Salesperson>> GetSalespersonsAsync(int districtId)
+    public async Task<List<Salesperson>> GetSecondarySalespersonsAsync(int districtId)
     {
         const string sql = """
                            SELECT
                                s.Id,
-                               s.Name,
-                               ds.Role
-                           FROM dbo.DistrictSalesperson ds
+                               s.Name
+                           FROM dbo.DistrictSecondarySalesperson ds
                            INNER JOIN dbo.Salesperson s
                                ON s.Id = ds.SalespersonId
                            WHERE ds.DistrictId = @DistrictId
                            ORDER BY
-                               CASE WHEN ds.Role = 'Primary' THEN 0 ELSE 1 END,
                                s.Name;
                            """;
 
@@ -66,8 +108,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
             .. rows
                 .Select(row => new Salesperson(
                     row.Id,
-                    row.Name,
-                    Enum.Parse<SalespersonRole>(row.Role)))
+                    row.Name))
         ];
     }
     

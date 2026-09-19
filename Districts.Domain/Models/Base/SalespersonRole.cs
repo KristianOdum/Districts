@@ -1,4 +1,4 @@
-﻿namespace Districts.Domain;
+﻿namespace Districts.Domain.Models.Base;
 
 public enum SalespersonRole
 {

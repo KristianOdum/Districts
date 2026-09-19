@@ -1,0 +1,12 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="District.sql and 4 more" type="DatabaseScript" editBeforeRun="true" nameIsGenerated="true">
+    <script-file value="$PROJECT_DIR$/Districts.Database/Tables/Salesperson.sql" />
+    <script-file value="$PROJECT_DIR$/Districts.Database/Tables/District.sql" />
+    <script-file value="$PROJECT_DIR$/Districts.Database/Tables/Store.sql" />
+    <script-file value="$PROJECT_DIR$/Districts.Database/Tables/DistrictSecondarySalesperson.sql" />
+    <script-file value="$PROJECT_DIR$/Districts.Database/Tables/SalespersonStore.sql" />
+    <script-mode>FILE</script-mode>
+    <data-source id="e90c6e49-85c0-442a-b805-6660a1dbe9bc" namespace="database/&quot;Districts&quot;/schema/&quot;dbo&quot;" />
+    <method v="2" />
+  </configuration>
+</component>

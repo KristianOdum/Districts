@@ -1,4 +1,4 @@
-﻿using Districts.Domain.Models;
+﻿using Districts.Domain.Models.Base;
 
 namespace Districts.Api.Dtos;
 

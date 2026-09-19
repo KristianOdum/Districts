@@ -16,7 +16,7 @@ public class GetDistrictDetailsQueryHandler(
             return null;
         }
 
-        var salespersons = await districtRepository.GetSalespersonsAsync(
+        var secondarySalespersons = await districtRepository.GetSecondarySalespersonsAsync(
             query.DistrictId);
 
         var stores = await districtRepository.GetStoresAsync(
@@ -25,7 +25,8 @@ public class GetDistrictDetailsQueryHandler(
         return new DistrictDetails(
             district.Id,
             district.Name,
-            salespersons,
+            primarySalesperson: district.PrimarySalesperson,
+            secondarySalespersons,
             stores);
     }
 }
