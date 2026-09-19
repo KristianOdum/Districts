@@ -8,6 +8,7 @@ namespace Districts.Infra.Repositories;
 
 public class DistrictRepository(string connectionString) : IDistrictRepository
 {
+    // TODO: Implement "Each district ALWAYS has a SINGLE primary salesperson." with test
     public async Task<List<District>> GetDistrictsAsync()
     {
         const string sql = """

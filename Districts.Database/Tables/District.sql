@@ -7,8 +7,9 @@
         PRIMARY KEY ([Id]),
 
     CONSTRAINT [UQ_District_Name]
-        UNIQUE ([Name])
+        UNIQUE ([Name]),
 
-    -- Could consider a Primary Salesperson here... 
-    -- But then what about the junction table? What about the future - 2 primaries etc.?
+    CONSTRAINT [FK_District_PrimarySalesperson]
+        FOREIGN KEY ([PrimarySalespersonId])
+        REFERENCES [dbo].[Salesperson] ([Id])
 )
