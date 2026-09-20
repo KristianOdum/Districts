@@ -1,6 +1,6 @@
-﻿using Districts.Domain.Models.Base;
+﻿using Districts.Domain.Models;
 
-namespace Districts.Application.Districts.Queries;
+namespace Districts.Application.Queries;
 
 public class DistrictDetails(
     int id,

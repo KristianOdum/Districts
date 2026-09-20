@@ -27,33 +27,63 @@
                     Margin="20,0,0,0"
                     DataContext="{Binding SelectedDistrictDetails}">
 
-            <TextBlock Text="{Binding Name}"
-                       FontSize="24"
+            <TextBlock Text="Salespersons"
+                       FontSize="18"
                        FontWeight="Bold"
-                       Margin="0,0,0,20" />
+                       Margin="0,0,0,10" />
 
-            <TextBlock Text="Primary Salesperson"
-                       FontSize="18"
-                       FontWeight="Bold" />
+            <Button Content="Add salesperson"
+                    Width="130"
+                    HorizontalAlignment="Left"
+                    Margin="0,0,0,15"
+                    Click="AddSalesperson_Click" />
 
-            <TextBlock Text="{Binding PrimarySalesperson.Name}"
-                       Margin="0,5,0,20" />
+            <!-- Primary -->
+            <StackPanel Orientation="Horizontal"
+                        Margin="0,0,0,15">
 
-            <TextBlock Text="Secondary Salespersons"
-                       FontSize="18"
+                <StackPanel>
+                    <TextBlock Text="Primary"
+                               FontWeight="Bold" />
+
+                    <TextBlock Text="{Binding PrimarySalesperson.Name}"
+                               Margin="0,5,0,0" />
+                </StackPanel>
+
+                <Button Content="Edit"
+                        Width="60"
+                        Height="25"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Center"
+                        Click="EditPrimarySalesperson_Click" />
+            </StackPanel>
+
+            <!-- Secondary -->
+            <TextBlock Text="Secondary"
                        FontWeight="Bold" />
 
             <ListBox ItemsSource="{Binding SecondarySalespersons}"
-                     DisplayMemberPath="Name"
-                     Margin="0,5,0,20" />
+                     Margin="0,5,0,20">
 
-            <TextBlock Text="Stores"
-                       FontSize="18"
-                       FontWeight="Bold" />
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="70" />
+                            </Grid.ColumnDefinitions>
 
-            <ListBox ItemsSource="{Binding Stores}"
-                     DisplayMemberPath="Name"
-                     Margin="0,5,0,0" />
+                            <TextBlock Text="{Binding Name}"
+                                       VerticalAlignment="Center" />
+
+                            <Button Grid.Column="1"
+                                    Content="Delete"
+                                    Click="DeleteSecondarySalesperson_Click" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+            </ListBox>
 
         </StackPanel>
     </Grid>

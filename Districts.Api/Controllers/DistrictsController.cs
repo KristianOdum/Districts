@@ -1,6 +1,8 @@
 ﻿using Districts.Api.Dtos;
-using Districts.Application.Districts.Queries;
+using Districts.Application.Commands;
+using Districts.Application.Queries;
 using Districts.Application.Interfaces;
+using Districts.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Districts.Api.Controllers;
@@ -10,6 +12,8 @@ namespace Districts.Api.Controllers;
 public class DistrictsController(
     IDistrictRepository repository, 
     GetDistrictDetailsQueryHandler getDistrictDetailsQueryHandler,
+    AddSalespersonToDistrictCommandHandler addSalespersonToDistrictCommandHandler,
+    RemoveSalespersonFromDistrictCommandHandler removeSalespersonFromDistrictCommandHandler,
     ILogger<DistrictsController> logger
     ) : ControllerBase
 {
@@ -20,7 +24,7 @@ public class DistrictsController(
         
         logger.LogInformation("Found {Count} total districts", districts.Count);
 
-        return Ok(districts.Select(DistrictDto.FromDomain));
+        return Ok(districts.Select(DistrictDto.FromDomain).ToList());
     }
     
     [HttpGet("{id:int}")]
@@ -37,5 +41,81 @@ public class DistrictsController(
         }
 
         return Ok(DistrictDetailsDto.FromApplication(result));
+    }
+    
+    [HttpPost("{districtId:int}/salespersons")]
+    public async Task<IActionResult> AddSalesperson(
+        int districtId,
+        AddSalespersonToDistrictDto request)
+    {
+        var command = new AddSalespersonToDistrict(
+            DistrictId: districtId,
+            SalespersonId: request.SalespersonId,
+            Role: request.Role);
+
+        logger.LogInformation(
+            "Adding salesperson {SalespersonId} to district {DistrictId} as {Role}",
+            request.SalespersonId,
+            districtId,
+            request.Role.ToString());
+
+        await addSalespersonToDistrictCommandHandler.HandleAsync(command);
+
+        logger.LogInformation(
+            "Added salesperson {SalespersonId} to district {DistrictId} as {Role}",
+            request.SalespersonId,
+            districtId,
+            request.Role.ToString());
+        
+        var district = await getDistrictDetailsQueryHandler.HandleAsync(
+            new GetDistrictDetailsQuery(districtId));
+
+        if (district is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(DistrictDetailsDto.FromApplication(district));
+    }
+    
+    [HttpDelete("{districtId:int}/salespersons/{salespersonId:int}")]
+    public async Task<IActionResult> RemoveSalesperson(
+        int districtId,
+        int salespersonId,
+        [FromQuery] SalespersonRole? role)
+    {
+        if (role is null)
+        {
+            return BadRequest("The role query parameter is required.");
+        }
+        
+        var command = new RemoveSalespersonFromDistrict(
+            districtId,
+            salespersonId,
+            role.Value);
+
+        logger.LogInformation(
+            "Removing salesperson {SalespersonId} from district {DistrictId} with {Role}",
+            salespersonId,
+            districtId,
+            role.ToString());
+
+        await removeSalespersonFromDistrictCommandHandler.HandleAsync(command);
+
+        logger.LogInformation(
+            "Removed salesperson {SalespersonId} from district {DistrictId} with {Role}",
+            salespersonId,
+            districtId,
+            role.ToString());
+        
+        var district = await getDistrictDetailsQueryHandler.HandleAsync(
+            new GetDistrictDetailsQuery(districtId));
+
+        if (district is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(DistrictDetailsDto.FromApplication(district));
     }
 }

@@ -1,17 +1,11 @@
-﻿using Districts.Domain.Models.Base;
+﻿using Districts.Domain.Models;
 
 namespace Districts.Api.Dtos;
 
-public class StoreDto(int id, string name)
+public record StoreDto(int Id, string Name)
 {
-    public int Id { get; } = id;
-    public string Name { get; } = name;
-    
-    public static StoreDto FromDomain(Store salesperson)
+    public static StoreDto FromDomain(Store store)
     {
-        return new StoreDto(
-            id: salesperson.Id,
-            name: salesperson.Name
-        );
+        return new StoreDto(store.Id, store.Name);
     }
 }

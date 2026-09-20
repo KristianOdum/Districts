@@ -1,3 +1,3 @@
-﻿namespace Districts.Application.Districts.Queries;
+﻿namespace Districts.Application.Queries;
 
 public record GetDistrictDetailsQuery(int DistrictId);

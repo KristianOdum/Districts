@@ -1,7 +1,0 @@
-﻿namespace Districts.Domain.Models.Base;
-
-public class Salesperson(int id, string name)
-{
-    public int Id { get; } = id;
-    public string Name { get; } = name;
-}

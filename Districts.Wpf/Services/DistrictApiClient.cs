@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
+using Districts.Domain.Models;
 using Districts.Wpf.Models;
 using Microsoft.Extensions.Logging;
 
@@ -13,6 +14,14 @@ public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient>
             "api/districts");
 
         return districts ?? [];
+    }
+    
+    public async Task<List<SalespersonModel>> GetSalespersonsAsync()
+    {
+        var salespersons = await httpClient.GetFromJsonAsync<List<SalespersonModel>>(
+            "api/salespersons");
+
+        return salespersons ?? [];
     }
 
     public async Task<DistrictDetailsModel?> GetDistrictDetailsAsync(int districtId)
@@ -28,6 +37,57 @@ public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient>
             logger.LogInformation("Fetched district with id {DistrictId}", districtId);
         }
         
+        return district;
+    }
+
+    public async Task<DistrictDetailsModel?> AddSalespersonToDistrictAsync(int districtId, int  salespersonId, SalespersonRole  salespersonRole)
+    {
+        var request = new
+        {
+            SalespersonId = salespersonId,
+            Role = salespersonRole
+        };
+        
+        var response = await httpClient.PostAsJsonAsync(
+            $"api/districts/{districtId}/salespersons", request
+            );
+        
+        response.EnsureSuccessStatusCode();
+        
+        var district = await response.Content
+            .ReadFromJsonAsync<DistrictDetailsModel>();
+
+        logger.LogInformation(
+            "Added salesperson {SalespersonId} to district {DistrictId} as {Role}",
+            salespersonId,
+            districtId,
+            salespersonRole);
+        
+        return district;
+    }
+    
+    public async Task<DistrictDetailsModel?> RemoveSalespersonFromDistrictAsync(
+        int districtId,
+        int salespersonId,
+        SalespersonRole role)
+    {
+        var request = new HttpRequestMessage(
+            HttpMethod.Delete,
+            $"api/districts/{districtId}/salespersons/{salespersonId}?role={role}");
+
+        var response = await httpClient.SendAsync(request);
+
+        response.EnsureSuccessStatusCode();
+
+        var district = await response.Content
+            .ReadFromJsonAsync<DistrictDetailsModel>();
+
+        logger.LogInformation(
+            "Removed salesperson {SalespersonId} from district {DistrictId} as {Role}",
+            salespersonId,
+            districtId,
+            role);
+
         return district;
     }
 }

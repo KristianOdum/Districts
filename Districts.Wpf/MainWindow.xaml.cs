@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using Districts.Domain.Models;
+using Districts.Wpf.Models;
 using Districts.Wpf.ViewModels;
 
 namespace Districts.Wpf;
@@ -18,5 +21,72 @@ public partial class MainWindow : Window
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         await _viewModel.LoadDistrictsAsync();
+    }
+    
+    private async void EditPrimarySalesperson_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        if (_viewModel.SelectedDistrictDetails is null)
+        {
+            return;
+        }
+
+        var dialog = new SalespersonDialog(
+            _viewModel.Salespersons,
+            _viewModel.SelectedDistrictDetails.PrimarySalesperson,
+            SalespersonRole.Primary)
+        {
+            Owner = this
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        await _viewModel.AddSalespersonAsync(
+            dialog.SelectedSalesperson!.Id,
+            SalespersonRole.Primary);
+    }
+    
+    private async void AddSalesperson_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        var dialog = new SalespersonDialog(
+            _viewModel.Salespersons)
+        {
+            Owner = this
+        };
+
+        if (dialog.ShowDialog() != true)
+        {
+            return;
+        }
+
+        await _viewModel.AddSalespersonAsync(
+            dialog.SelectedSalesperson!.Id,
+            dialog.SelectedRole);
+    }
+    
+    private async void DeleteSecondarySalesperson_Click(
+        object sender,
+        RoutedEventArgs e)
+    {
+        if (sender is not Button button ||
+            button.DataContext is not SalespersonModel salesperson)
+        {
+            return;
+        }
+
+        if (_viewModel.SelectedDistrict is null)
+        {
+            return;
+        }
+
+        await _viewModel.RemoveSalespersonAsync(
+            salesperson.Id,
+            SalespersonRole.Secondary);
     }
 }

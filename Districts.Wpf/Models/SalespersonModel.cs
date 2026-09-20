@@ -1,9 +1,3 @@
 ﻿namespace Districts.Wpf.Models;
 
-public class SalespersonModel(
-    int id,
-    string name)
-{
-    public int Id { get; } = id;
-    public string Name { get; } = name;
-}
+public record SalespersonModel(int Id, string Name);

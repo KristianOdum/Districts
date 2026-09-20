@@ -1,4 +1,4 @@
-﻿using Districts.Domain.Models.Base;
+﻿using Districts.Domain.Models;
 using Microsoft.Data.SqlClient;
 using Dapper;
 using Districts.Application.Interfaces;
@@ -14,6 +14,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
                                d.Id,
                                d.Name,
                                s.Id,
+                               s.EmployeeNumber,
                                s.Name
                            FROM dbo.District d
                            INNER JOIN dbo.Salesperson s
@@ -31,12 +32,13 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
         while (await reader.ReadAsync())
         {
             var salesperson = new Salesperson(
-                reader.GetInt32(2),
-                reader.GetString(3));
+                id: reader.GetInt32(2),
+                employeeNumber: reader.GetString(3),
+                name: reader.GetString(4));
 
             var district = new District(
-                reader.GetInt32(0),
-                reader.GetString(1),
+                id: reader.GetInt32(0),
+                name: reader.GetString(1),
                 salesperson);
 
             districts.Add(district);
@@ -52,6 +54,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
                                d.Id,
                                d.Name,
                                s.Id,
+                               s.EmployeeNumber,
                                s.Name
                            FROM dbo.District d
                            INNER JOIN dbo.Salesperson s
@@ -74,12 +77,13 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
         }
 
         var salesperson = new Salesperson(
-            reader.GetInt32(2),
-            reader.GetString(3));
+            id: reader.GetInt32(2),
+            employeeNumber: reader.GetString(3),
+            name: reader.GetString(4));
 
         return new District(
-            reader.GetInt32(0),
-            reader.GetString(1),
+            id: reader.GetInt32(0),
+            name: reader.GetString(1),
             salesperson);
     }
     
@@ -88,6 +92,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
         const string sql = """
                            SELECT
                                s.Id,
+                               s.EmployeeNumber,
                                s.Name
                            FROM dbo.DistrictSecondarySalesperson ds
                            INNER JOIN dbo.Salesperson s
@@ -108,6 +113,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
             .. rows
                 .Select(row => new Salesperson(
                     row.Id,
+                    row.EmployeeNumber,
                     row.Name))
         ];
     }
@@ -128,5 +134,71 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
             new { DistrictId = districtId });
 
         return [.. stores];
+    }
+    
+    public async Task SetPrimarySalespersonAsync(
+        int districtId,
+        int salespersonId)
+    {
+        const string sql = """
+                           UPDATE dbo.District
+                           SET PrimarySalespersonId = @SalespersonId
+                           WHERE Id = @DistrictId;
+                           """;
+
+        await using var connection = new SqlConnection(connectionString);
+
+        await connection.ExecuteAsync(
+            sql,
+            new
+            {
+                DistrictId = districtId,
+                SalespersonId = salespersonId
+            });
+    }
+    
+    public async Task AddSecondarySalespersonAsync(
+        int districtId,
+        int salespersonId)
+    {
+        const string sql = """
+                           INSERT INTO dbo.DistrictSecondarySalesperson
+                               (DistrictId, SalespersonId)
+                           VALUES
+                               (@DistrictId, @SalespersonId);
+                           """;
+
+        await using var connection = new SqlConnection(connectionString);
+
+        await connection.ExecuteAsync(
+            sql,
+            new
+            {
+                DistrictId = districtId,
+                SalespersonId = salespersonId
+            });
+    }
+    
+    public async Task<bool> RemoveSecondarySalespersonAsync(
+        int districtId,
+        int salespersonId)
+    {
+        const string sql = """
+                           DELETE FROM dbo.DistrictSecondarySalesperson
+                           WHERE DistrictId = @DistrictId
+                             AND SalespersonId = @SalespersonId;
+                           """;
+
+        await using var connection = new SqlConnection(connectionString);
+
+        var affectedRows = await connection.ExecuteAsync(
+            sql,
+            new
+            {
+                DistrictId = districtId,
+                SalespersonId = salespersonId
+            });
+        
+        return affectedRows > 0;
     }
 }

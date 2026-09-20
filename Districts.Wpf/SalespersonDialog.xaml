@@ -1,0 +1,64 @@
+﻿<Window x:Class="Districts.Wpf.SalespersonDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Salesperson"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <StackPanel Margin="20">
+
+        <TextBlock Text="Salesperson"
+                   Margin="0,0,0,5"/>
+
+        <Grid>
+            <TextBox x:Name="SalespersonSearchBox"
+                     Width="250"
+                     Height="100"
+                     TextChanged="SalespersonSearchBox_TextChanged"
+                     PreviewMouseDown="SalespersonSearchBox_PreviewMouseDown"/>
+
+            <Popup x:Name="SalespersonPopup"
+                   PlacementTarget="{Binding ElementName=SalespersonSearchBox}"
+                   Placement="Bottom"
+                   IsOpen="False"
+                   StaysOpen="False">
+
+                <Border BorderBrush="Gray"
+                        BorderThickness="1"
+                        Background="White">
+
+                    <ListBox x:Name="SalespersonListBox"
+                             Width="250"
+                             MaxHeight="200"
+                             DisplayMemberPath="Name"
+                             SelectionChanged="SalespersonListBox_SelectionChanged"/>
+
+                </Border>
+
+            </Popup>
+        </Grid>
+
+        <TextBlock Text="Role"
+                   Margin="0,15,0,5"/>
+
+        <ComboBox x:Name="RoleComboBox"
+                  Width="250"
+                  Margin="0,0,0,20"/>
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Content="Cancel"
+                    Width="70"
+                    Margin="0,0,10,0"
+                    Click="Cancel_Click"/>
+
+            <Button Content="OK"
+                    Width="70"
+                    Click="Ok_Click"/>
+
+        </StackPanel>
+
+    </StackPanel>
+</Window>

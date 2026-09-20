@@ -1,6 +1,6 @@
 ﻿using Districts.Application.Interfaces;
 
-namespace Districts.Application.Districts.Queries;
+namespace Districts.Application.Queries;
 
 public class GetDistrictDetailsQueryHandler(
     IDistrictRepository districtRepository)

@@ -23,6 +23,11 @@ public partial class App : Application
         {
             client.BaseAddress = new Uri("http://localhost:5294/");
         });
+
+        services.AddHttpClient<SalespersonApiClient>(client =>
+        {
+            client.BaseAddress = new Uri("http://localhost:5294/");
+        });
         
         services.AddTransient<MainViewModel>();
         services.AddTransient<MainWindow>();

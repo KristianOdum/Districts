@@ -2,27 +2,30 @@
 using System.ComponentModel;
 using Districts.Wpf.Models;
 using Districts.Wpf.Services;
+using Districts.Domain.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Districts.Wpf.ViewModels;
 
-public class MainViewModel(DistrictApiClient districtApiClient, ILogger<MainViewModel> logger) : INotifyPropertyChanged
+public class MainViewModel(DistrictApiClient districtApiClient, SalespersonApiClient salespersonApiClient, ILogger<MainViewModel> logger) : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
     
     public ObservableCollection<DistrictModel> Districts { get; } = [];
     
+    public Collection<SalespersonModel> Salespersons { get; } = [];  // No need to be Observable (yet)
+    
     public async Task LoadDistrictsAsync()
     {
         var districts = await districtApiClient.GetDistrictsAsync();
-
+        
+        Districts.Clear();
         foreach (var district in districts)
         {
             Districts.Add(district);
         }
         
-        
-        // Looks weird with nothing selected initially
+        // Looks weird with nothing selected initially, so choose the first one if present
         if (Districts.Count > 0)
         {
             SelectedDistrict = Districts[0];
@@ -63,4 +66,46 @@ public class MainViewModel(DistrictApiClient districtApiClient, ILogger<MainView
             await districtApiClient.GetDistrictDetailsAsync(districtId);
     }
     
+    public async Task LoadSalespersonsAsync()
+    {
+        var salespersons = await salespersonApiClient.GetSalespersonsAsync();
+        
+        Salespersons.Clear();
+        foreach (var salesperson in salespersons)
+        {
+            Salespersons.Add(salesperson);
+        }
+    }
+    
+    public async Task AddSalespersonAsync(
+        int salespersonId,
+        SalespersonRole role)
+    {
+        if (SelectedDistrict is null)
+        {
+            return;
+        }
+
+        SelectedDistrictDetails =
+            await districtApiClient.AddSalespersonToDistrictAsync(
+                SelectedDistrict.Id,
+                salespersonId,
+                role);
+    }
+
+    public async Task RemoveSalespersonAsync(
+        int salespersonId,
+        SalespersonRole role)
+    {
+        if (SelectedDistrict is null)
+        {
+            return;
+        }
+
+        SelectedDistrictDetails =
+            await districtApiClient.RemoveSalespersonFromDistrictAsync(
+                SelectedDistrict.Id,
+                salespersonId,
+                role);
+    }
 }
