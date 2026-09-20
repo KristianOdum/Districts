@@ -7,42 +7,31 @@ namespace Districts.Wpf;
 
 public partial class SalespersonDialog : Window
 {
-    private readonly List<SalespersonModel> _salespersons;
+    private readonly List<SalespersonModel> _relevantSalespersons;
 
     public SalespersonModel? SelectedSalesperson { get; private set; }
 
-    public SalespersonRole SelectedRole =>
-        (SalespersonRole)RoleComboBox.SelectedItem;
-
     public SalespersonDialog(
         IEnumerable<SalespersonModel> salespersons,
-        SalespersonModel? selectedSalesperson = null,
-        SalespersonRole? fixedRole = null)
+        IEnumerable<int>? excludedSalespersonIds,
+        SalespersonRole role)
     {
         InitializeComponent();
-
-        _salespersons = [.. salespersons];
-
-        SalespersonListBox.ItemsSource = _salespersons;
         
-        if (selectedSalesperson is not null)
-        {
-            SelectedSalesperson = selectedSalesperson;
-            SalespersonSearchBox.Text = selectedSalesperson.Name;
-        }
+        var excludedIds = excludedSalespersonIds?.ToHashSet() ?? [];
+        _relevantSalespersons =
+        [
+            .. salespersons
+                .Where(s => !excludedIds.Contains(s.Id))
+        ];
 
-        RoleComboBox.ItemsSource =
-            Enum.GetValues<SalespersonRole>();
-
-        if (fixedRole.HasValue)
-        {
-            RoleComboBox.SelectedItem = fixedRole.Value;
-            RoleComboBox.IsEnabled = false;
-        }
-        else
-        {
-            RoleComboBox.SelectedItem = SalespersonRole.Secondary;
-        }
+        SalespersonListBox.ItemsSource = _relevantSalespersons;
+        
+        // if (selectedSalesperson is not null)
+        // {
+        //     SelectedSalesperson = selectedSalesperson;
+        //     SalespersonSearchBox.Text = selectedSalesperson.Name;
+        // }
         
         Loaded += (_, _) =>
         {
@@ -57,7 +46,7 @@ public partial class SalespersonDialog : Window
         var search = SalespersonSearchBox.Text.Trim();
 
         SalespersonListBox.ItemsSource =
-            _salespersons
+            _relevantSalespersons
                 .Where(s => s.Name.Contains(
                     search,
                     StringComparison.OrdinalIgnoreCase))

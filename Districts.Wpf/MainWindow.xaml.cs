@@ -35,9 +35,8 @@ public partial class MainWindow : Window
         }
 
         var dialog = new SalespersonDialog(
-            _viewModel.Salespersons,
-            // _viewModel.SelectedDistrictDetails.PrimarySalesperson,
-            null,
+            salespersons: _viewModel.Salespersons,
+            excludedSalespersonIds: [_viewModel.SelectedDistrictDetails.PrimarySalesperson.Id],
             SalespersonRole.Primary)
         {
             Owner = this
@@ -57,8 +56,17 @@ public partial class MainWindow : Window
         object sender,
         RoutedEventArgs e)
     {
+        if (_viewModel.SelectedDistrictDetails is null)
+        {
+            return;
+        }
+        
+        var excludedIds = _viewModel.SelectedDistrictDetails
+            .SecondarySalespersons
+            .Select(s => s.Id);
+
         var dialog = new SalespersonDialog(
-            _viewModel.Salespersons)
+            salespersons: _viewModel.Salespersons, excludedSalespersonIds: excludedIds, SalespersonRole.Secondary)
         {
             Owner = this
         };
@@ -70,7 +78,7 @@ public partial class MainWindow : Window
 
         await _viewModel.AddSalespersonAsync(
             dialog.SelectedSalesperson!.Id,
-            dialog.SelectedRole);
+            SalespersonRole.Secondary);
     }
     
     private async void DeleteSecondarySalesperson_Click(
