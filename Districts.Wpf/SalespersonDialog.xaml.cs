@@ -43,6 +43,11 @@ public partial class SalespersonDialog : Window
         {
             RoleComboBox.SelectedItem = SalespersonRole.Secondary;
         }
+        
+        Loaded += (_, _) =>
+        {
+            SalespersonSearchBox.Focus();
+        };
     }
 
     private void SalespersonSearchBox_TextChanged(
@@ -57,15 +62,6 @@ public partial class SalespersonDialog : Window
                     search,
                     StringComparison.OrdinalIgnoreCase))
                 .ToList();
-
-        SalespersonPopup.IsOpen = true;
-    }
-
-    private void SalespersonSearchBox_PreviewMouseDown(
-        object sender,
-        System.Windows.Input.MouseButtonEventArgs e)
-    {
-        SalespersonPopup.IsOpen = true;
     }
 
     private void SalespersonListBox_SelectionChanged(
@@ -78,9 +74,18 @@ public partial class SalespersonDialog : Window
         }
 
         SelectedSalesperson = salesperson;
-        SalespersonSearchBox.Text = salesperson.Name;
+    }
+    
+    private void SalespersonListBox_MouseDoubleClick(
+        object sender,
+        System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (SalespersonListBox.SelectedItem is not SalespersonModel)
+        {
+            return;
+        }
 
-        SalespersonPopup.IsOpen = false;
+        DialogResult = true;
     }
 
     private void Ok_Click(object sender, RoutedEventArgs e)

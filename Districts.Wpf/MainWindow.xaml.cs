@@ -21,6 +21,8 @@ public partial class MainWindow : Window
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         await _viewModel.LoadDistrictsAsync();
+        await _viewModel.LoadSalespersonsAsync();
+        DistrictListBox.SelectedIndex = 0;
     }
     
     private async void EditPrimarySalesperson_Click(
@@ -34,7 +36,8 @@ public partial class MainWindow : Window
 
         var dialog = new SalespersonDialog(
             _viewModel.Salespersons,
-            _viewModel.SelectedDistrictDetails.PrimarySalesperson,
+            // _viewModel.SelectedDistrictDetails.PrimarySalesperson,
+            null,
             SalespersonRole.Primary)
         {
             Owner = this

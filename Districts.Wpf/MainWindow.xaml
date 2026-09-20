@@ -7,8 +7,8 @@
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         mc:Ignorable="d"
         Title="Districts" 
-        Height="450" 
-        Width="800"
+        Height="500" 
+        Width="600"
         Loaded="Window_Loaded"
     >
     
@@ -18,59 +18,98 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <ListBox Grid.Column="0" 
-                 ItemsSource="{Binding Districts}"
-                 SelectedItem="{Binding SelectedDistrict}"
-                 DisplayMemberPath="Name"/>
+        <!-- Districts -->
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="Districts"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,5" />
+            
+            <ListBox x:Name="DistrictListBox"
+                     ItemsSource="{Binding Districts}"
+                     SelectedItem="{Binding SelectedDistrict, Mode=TwoWay}"
+                     DisplayMemberPath="Name"/>
+        </StackPanel>
         
         <StackPanel Grid.Column="1"
                     Margin="20,0,0,0"
                     DataContext="{Binding SelectedDistrictDetails}">
-
+            
+            <!-- Stores -->
+            <TextBlock Text="Stores"
+                       FontSize="18"
+                       FontWeight="Bold"
+                       Margin="0,0,0,5" />
+            <ListBox ItemsSource="{Binding Stores}"
+                     Height="100"
+                     Margin="0,0,0,20"
+                     HorizontalContentAlignment="Stretch"
+                     AlternationCount="2">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"
+                                   Margin="0,3" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <!-- Salespersons -->
             <TextBlock Text="Salespersons"
                        FontSize="18"
                        FontWeight="Bold"
                        Margin="0,0,0,10" />
 
-            <Button Content="Add salesperson"
-                    Width="130"
-                    HorizontalAlignment="Left"
-                    Margin="0,0,0,15"
-                    Click="AddSalesperson_Click" />
-
             <!-- Primary -->
-            <StackPanel Orientation="Horizontal"
-                        Margin="0,0,0,15">
-
-                <StackPanel>
-                    <TextBlock Text="Primary"
-                               FontWeight="Bold" />
-
-                    <TextBlock Text="{Binding PrimarySalesperson.Name}"
-                               Margin="0,5,0,0" />
-                </StackPanel>
-
-                <Button Content="Edit"
+            <Grid Margin="0,0,0,15"
+                  HorizontalAlignment="Stretch">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock FontWeight="Bold">
+                    <Run Text="Primary: " />
+                    <Run Text="{Binding PrimarySalesperson.Name}"
+                         FontWeight="Normal" />
+                </TextBlock>
+                
+                <Button Grid.Column="1"
+                        Content="Edit"
                         Width="60"
                         Height="25"
-                        Margin="20,0,0,0"
-                        VerticalAlignment="Center"
+                        Margin="10,0,0,0"
                         Click="EditPrimarySalesperson_Click" />
-            </StackPanel>
+            </Grid>
 
             <!-- Secondary -->
-            <TextBlock Text="Secondary"
-                       FontWeight="Bold" />
+            <Grid Margin="0,0,0,5"
+                  HorizontalAlignment="Stretch">
+
+                <TextBlock Text="Secondary"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center" />
+
+                <Button Grid.Column="1"
+                        Content="Add"
+                        Width="60"
+                        Height="25"
+                        HorizontalAlignment="Right"
+                        Click="AddSalesperson_Click" />
+            </Grid>
 
             <ListBox ItemsSource="{Binding SecondarySalespersons}"
-                     Margin="0,5,0,20">
-
+                     Margin="0,5,0,20"
+                     MaxHeight="150"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="0,3">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="70" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Text="{Binding Name}"
@@ -78,13 +117,14 @@
 
                             <Button Grid.Column="1"
                                     Content="Delete"
+                                    Height="25"
+                                    Width="60"
+                                    HorizontalAlignment="Right"
                                     Click="DeleteSecondarySalesperson_Click" />
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
-
             </ListBox>
-
         </StackPanel>
     </Grid>
 </Window>
