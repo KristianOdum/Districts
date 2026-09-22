@@ -3,5 +3,5 @@
 public enum SalespersonRole
 {
     Primary,
-    Secondary,
+    Secondary
 }

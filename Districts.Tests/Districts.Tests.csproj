@@ -10,8 +10,11 @@
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.12"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12"/>
         <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0"/>
+        <PackageReference Include="NSubstitute" Version="6.2.0"/>
         <PackageReference Include="NUnit" Version="4.3.2"/>
         <PackageReference Include="NUnit.Analyzers" Version="4.7.0"/>
         <PackageReference Include="NUnit3TestAdapter" Version="5.0.0"/>
@@ -19,6 +22,12 @@
 
     <ItemGroup>
         <Using Include="NUnit.Framework"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Districts.Application\Districts.Application.csproj"/>
+        <ProjectReference Include="..\Districts.Domain\Districts.Domain.csproj"/>
+        <ProjectReference Include="..\Districts.Api\Districts.Api.csproj"/>
     </ItemGroup>
 
 </Project>

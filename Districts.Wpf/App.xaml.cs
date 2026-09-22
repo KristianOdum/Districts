@@ -12,11 +12,11 @@ namespace Districts.Wpf;
 public partial class App : Application
 {
     private readonly ServiceProvider _serviceProvider;
-    
+
     public App()
     {
         var services = new ServiceCollection();
-        
+
         services.AddLogging(logging => logging.AddConsole());
 
         services.AddHttpClient<DistrictApiClient>(client =>
@@ -28,13 +28,13 @@ public partial class App : Application
         {
             client.BaseAddress = new Uri("http://localhost:5294/");
         });
-        
+
         services.AddTransient<MainViewModel>();
         services.AddTransient<MainWindow>();
 
         _serviceProvider = services.BuildServiceProvider();
     }
-    
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);

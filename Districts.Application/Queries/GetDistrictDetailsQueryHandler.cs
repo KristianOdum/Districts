@@ -11,10 +11,7 @@ public class GetDistrictDetailsQueryHandler(
         var district = await districtRepository.GetDistrictAsync(
             query.DistrictId);
 
-        if (district is null)
-        {
-            return null;
-        }
+        if (district is null) return null;
 
         var secondarySalespersons = await districtRepository.GetSecondarySalespersonsAsync(
             query.DistrictId);
@@ -25,7 +22,7 @@ public class GetDistrictDetailsQueryHandler(
         return new DistrictDetails(
             district.Id,
             district.Name,
-            primarySalesperson: district.PrimarySalesperson,
+            district.PrimarySalesperson,
             secondarySalespersons,
             stores);
     }

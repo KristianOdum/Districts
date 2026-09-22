@@ -9,15 +9,15 @@
     <StackPanel Width="250" Margin="20">
 
         <TextBlock Text="Select salesperson"
-                   Margin="0,0,0,5"/>
-        
+                   Margin="0,0,0,5" />
+
         <Grid Height="30">
             <TextBox x:Name="SalespersonSearchBox"
-                     
+
                      Padding="5,0"
                      VerticalContentAlignment="Center"
-                     TextChanged="SalespersonSearchBox_TextChanged"/>
-            
+                     TextChanged="SalespersonSearchBox_TextChanged" />
+
             <TextBlock Text="Search..."
                        Foreground="Gray"
                        Margin="7,0,0,0"
@@ -49,7 +49,7 @@
                  Margin="0,5,0,0"
                  DisplayMemberPath="Name"
                  SelectionChanged="SalespersonListBox_SelectionChanged"
-                 MouseDoubleClick="SalespersonListBox_MouseDoubleClick"/>
+                 MouseDoubleClick="SalespersonListBox_MouseDoubleClick" />
 
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right">
@@ -57,11 +57,11 @@
             <Button Content="Cancel"
                     Width="70"
                     Margin="0,0,10,0"
-                    Click="Cancel_Click"/>
+                    Click="Cancel_Click" />
 
             <Button Content="OK"
                     Width="70"
-                    Click="Ok_Click"/>
+                    Click="Ok_Click" />
 
         </StackPanel>
 

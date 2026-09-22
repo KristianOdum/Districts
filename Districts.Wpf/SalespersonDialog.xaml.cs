@@ -17,7 +17,7 @@ public partial class SalespersonDialog : Window
         SalespersonRole role)
     {
         InitializeComponent();
-        
+
         var excludedIds = excludedSalespersonIds?.ToHashSet() ?? [];
         _relevantSalespersons =
         [
@@ -26,17 +26,14 @@ public partial class SalespersonDialog : Window
         ];
 
         SalespersonListBox.ItemsSource = _relevantSalespersons;
-        
+
         // if (selectedSalesperson is not null)
         // {
         //     SelectedSalesperson = selectedSalesperson;
         //     SalespersonSearchBox.Text = selectedSalesperson.Name;
         // }
-        
-        Loaded += (_, _) =>
-        {
-            SalespersonSearchBox.Focus();
-        };
+
+        Loaded += (_, _) => { SalespersonSearchBox.Focus(); };
     }
 
     private void SalespersonSearchBox_TextChanged(
@@ -57,22 +54,16 @@ public partial class SalespersonDialog : Window
         object sender,
         SelectionChangedEventArgs e)
     {
-        if (SalespersonListBox.SelectedItem is not SalespersonModel salesperson)
-        {
-            return;
-        }
+        if (SalespersonListBox.SelectedItem is not SalespersonModel salesperson) return;
 
         SelectedSalesperson = salesperson;
     }
-    
+
     private void SalespersonListBox_MouseDoubleClick(
         object sender,
         System.Windows.Input.MouseButtonEventArgs e)
     {
-        if (SalespersonListBox.SelectedItem is not SalespersonModel)
-        {
-            return;
-        }
+        if (SalespersonListBox.SelectedItem is not SalespersonModel) return;
 
         DialogResult = true;
     }

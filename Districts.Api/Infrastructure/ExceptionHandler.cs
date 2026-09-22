@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using Districts.Application.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Districts.Api.Infrastructure;
@@ -21,18 +22,14 @@ public class ApiExceptionHandler(
         };
 
         if (statusCode == StatusCodes.Status500InternalServerError)
-        {
             logger.LogError(
                 exception,
                 "Unhandled exception while processing request.");
-        }
         else
-        {
             logger.LogWarning(
                 exception,
                 "Request failed with status code {StatusCode}.",
                 statusCode);
-        }
 
         var problemDetails = new ProblemDetails
         {

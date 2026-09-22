@@ -1,4 +1,4 @@
-﻿using Districts.Api.Infrastructure;
+﻿using Districts.Application.Exceptions;
 using Districts.Application.Interfaces;
 using Districts.Domain.Models;
 
@@ -18,13 +18,11 @@ public class RemoveSalespersonFromDistrictCommandHandler(
                     command.SalespersonId);
 
                 if (!removed)
-                {
                     throw new KeyNotFoundException(
                         $"Salesperson with ID {command.SalespersonId} " +
                         $"is not assigned as a secondary salesperson " +
                         $"in district with ID {command.DistrictId}.");
-                }
-                
+
                 break;
 
             case SalespersonRole.Primary:

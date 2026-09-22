@@ -6,18 +6,17 @@
         xmlns:viewModels="clr-namespace:Districts.Wpf.ViewModels"
         d:DataContext="{d:DesignInstance Type=viewModels:MainViewModel}"
         mc:Ignorable="d"
-        Title="Districts" 
-        Height="500" 
+        Title="Districts"
+        Height="500"
         Width="600"
-        Loaded="Window_Loaded"
-    >
-    
+        Loaded="Window_Loaded">
+
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <!-- Districts -->
         <StackPanel Grid.Column="0">
             <TextBlock Text="Districts"
@@ -25,17 +24,17 @@
                        FontWeight="Bold"
                        HorizontalAlignment="Center"
                        Margin="0,0,0,5" />
-            
+
             <ListBox x:Name="DistrictListBox"
                      ItemsSource="{Binding Districts}"
                      SelectedItem="{Binding SelectedDistrict, Mode=TwoWay}"
-                     DisplayMemberPath="Name"/>
+                     DisplayMemberPath="Name" />
         </StackPanel>
-        
+
         <StackPanel Grid.Column="1"
                     Margin="20,0,0,0"
                     DataContext="{Binding SelectedDistrictDetails}">
-            
+
             <!-- Stores -->
             <TextBlock Text="Stores"
                        FontSize="18"
@@ -53,7 +52,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            
+
             <!-- Salespersons -->
             <TextBlock Text="Salespersons"
                        FontSize="18"
@@ -63,18 +62,18 @@
             <!-- Primary -->
             <Grid Margin="0,0,0,15"
                   HorizontalAlignment="Stretch">
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock FontWeight="Bold">
                     <Run Text="Primary: " />
                     <Run Text="{Binding PrimarySalesperson.Name}"
                          FontWeight="Normal" />
                 </TextBlock>
-                
+
                 <Button Grid.Column="1"
                         Content="Edit"
                         Width="60"

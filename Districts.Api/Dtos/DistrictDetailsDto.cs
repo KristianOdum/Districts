@@ -10,11 +10,13 @@ public record DistrictDetailsDto(
     List<SalespersonDto> SecondarySalespersons,
     List<StoreDto> Stores)
 {
-    public static DistrictDetailsDto FromApplication(DistrictDetails details) =>
-        new(
+    public static DistrictDetailsDto FromApplication(DistrictDetails details)
+    {
+        return new DistrictDetailsDto(
             details.Id,
             details.Name,
             SalespersonDto.FromDomain(details.PrimarySalesperson),
             [.. details.Salespersons.Select(SalespersonDto.FromDomain)],
             [.. details.Stores.Select(StoreDto.FromDomain)]);
+    }
 }

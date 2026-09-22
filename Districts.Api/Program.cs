@@ -15,10 +15,7 @@ builder.Services
         options.JsonSerializerOptions.Converters.Add(
             new JsonStringEnumConverter()));
 builder.Services.AddProblemDetails();
-builder.Services.AddLogging(logging =>
-{
-    logging.AddConsole();
-});
+builder.Services.AddLogging(logging => { logging.AddConsole(); });
 builder.Services.AddExceptionHandler<ApiExceptionHandler>();
 
 // Read the database connection string from appsettings.json.

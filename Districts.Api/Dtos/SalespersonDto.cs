@@ -5,6 +5,8 @@ namespace Districts.Api.Dtos;
 
 public record SalespersonDto(int Id, string EmployeeNumber, string Name)
 {
-    public static SalespersonDto FromDomain(Salesperson salesperson) =>
-        new(salesperson.Id, salesperson.EmployeeNumber, salesperson.Name);
+    public static SalespersonDto FromDomain(Salesperson salesperson)
+    {
+        return new SalespersonDto(salesperson.Id, salesperson.EmployeeNumber, salesperson.Name);
+    }
 }

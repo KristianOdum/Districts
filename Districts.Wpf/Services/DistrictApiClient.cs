@@ -15,7 +15,7 @@ public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient>
 
         return districts ?? [];
     }
-    
+
     public async Task<List<SalespersonModel>> GetSalespersonsAsync()
     {
         var salespersons = await httpClient.GetFromJsonAsync<List<SalespersonModel>>(
@@ -29,31 +29,28 @@ public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient>
         var district = await httpClient.GetFromJsonAsync<DistrictDetailsModel>($"api/Districts/{districtId}");
 
         if (district is null)
-        {
             logger.LogWarning("District with id {DistrictId} not found", districtId);
-        }
         else
-        {
             logger.LogInformation("Fetched district with id {DistrictId}", districtId);
-        }
-        
+
         return district;
     }
 
-    public async Task<DistrictDetailsModel?> AddSalespersonToDistrictAsync(int districtId, int  salespersonId, SalespersonRole  salespersonRole)
+    public async Task<DistrictDetailsModel?> AddSalespersonToDistrictAsync(int districtId, int salespersonId,
+        SalespersonRole salespersonRole)
     {
         var request = new
         {
             SalespersonId = salespersonId,
             Role = salespersonRole
         };
-        
+
         var response = await httpClient.PostAsJsonAsync(
             $"api/districts/{districtId}/salespersons", request
-            );
-        
+        );
+
         response.EnsureSuccessStatusCode();
-        
+
         var district = await response.Content
             .ReadFromJsonAsync<DistrictDetailsModel>();
 
@@ -62,10 +59,10 @@ public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient>
             salespersonId,
             districtId,
             salespersonRole);
-        
+
         return district;
     }
-    
+
     public async Task<DistrictDetailsModel?> RemoveSalespersonFromDistrictAsync(
         int districtId,
         int salespersonId,

@@ -8,9 +8,11 @@ public record DistrictDto(
     string Name,
     SalespersonDto PrimarySalesperson)
 {
-    public static DistrictDto FromDomain(District district) =>
-        new(
+    public static DistrictDto FromDomain(District district)
+    {
+        return new DistrictDto(
             district.Id,
             district.Name,
             SalespersonDto.FromDomain(district.PrimarySalesperson));
+    }
 }

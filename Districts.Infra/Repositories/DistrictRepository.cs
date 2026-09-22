@@ -32,13 +32,13 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
         while (await reader.ReadAsync())
         {
             var salesperson = new Salesperson(
-                id: reader.GetInt32(2),
-                employeeNumber: reader.GetString(3),
-                name: reader.GetString(4));
+                reader.GetInt32(2),
+                reader.GetString(3),
+                reader.GetString(4));
 
             var district = new District(
-                id: reader.GetInt32(0),
-                name: reader.GetString(1),
+                reader.GetInt32(0),
+                reader.GetString(1),
                 salesperson);
 
             districts.Add(district);
@@ -71,22 +71,19 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
 
         await using var reader = await command.ExecuteReaderAsync();
 
-        if (!await reader.ReadAsync())
-        {
-            return null;
-        }
+        if (!await reader.ReadAsync()) return null;
 
         var salesperson = new Salesperson(
-            id: reader.GetInt32(2),
-            employeeNumber: reader.GetString(3),
-            name: reader.GetString(4));
+            reader.GetInt32(2),
+            reader.GetString(3),
+            reader.GetString(4));
 
         return new District(
-            id: reader.GetInt32(0),
-            name: reader.GetString(1),
+            reader.GetInt32(0),
+            reader.GetString(1),
             salesperson);
     }
-    
+
     public async Task<List<Salesperson>> GetSecondarySalespersonsAsync(int districtId)
     {
         const string sql = """
@@ -117,7 +114,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
                     row.Name))
         ];
     }
-    
+
     public async Task<List<Store>> GetStoresAsync(int districtId)
     {
         const string sql = """
@@ -135,7 +132,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
 
         return [.. stores];
     }
-    
+
     public async Task SetPrimarySalespersonAsync(
         int districtId,
         int salespersonId)
@@ -156,7 +153,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
                 SalespersonId = salespersonId
             });
     }
-    
+
     public async Task AddSecondarySalespersonAsync(
         int districtId,
         int salespersonId)
@@ -178,7 +175,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
                 SalespersonId = salespersonId
             });
     }
-    
+
     public async Task<bool> RemoveSecondarySalespersonAsync(
         int districtId,
         int salespersonId)
@@ -198,7 +195,7 @@ public class DistrictRepository(string connectionString) : IDistrictRepository
                 DistrictId = districtId,
                 SalespersonId = salespersonId
             });
-        
+
         return affectedRows > 0;
     }
 }

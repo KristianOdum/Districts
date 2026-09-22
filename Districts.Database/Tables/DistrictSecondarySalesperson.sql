@@ -1,6 +1,6 @@
 ﻿CREATE TABLE dbo.DistrictSecondarySalesperson
 (
-    DistrictId INT NOT NULL,
+    DistrictId    INT NOT NULL,
     SalespersonId INT NOT NULL,
 
     CONSTRAINT PK_DistrictSecondarySalesperson
@@ -8,9 +8,9 @@
 
     CONSTRAINT FK_DistrictSecondarySalesperson_District
         FOREIGN KEY (DistrictId)
-            REFERENCES dbo.District(Id),
+            REFERENCES dbo.District (Id),
 
     CONSTRAINT FK_DistrictSecondarySalesperson_Salesperson
         FOREIGN KEY (SalespersonId)
-            REFERENCES dbo.Salesperson(Id)
+            REFERENCES dbo.Salesperson (Id)
 );

@@ -10,7 +10,7 @@ public interface IDistrictRepository
     Task<District?> GetDistrictAsync(int districtId);
     Task<List<Salesperson>> GetSecondarySalespersonsAsync(int districtId);
     Task<List<Store>> GetStoresAsync(int districtId);
-    
+
     // Commands
     Task SetPrimarySalespersonAsync(
         int districtId,
