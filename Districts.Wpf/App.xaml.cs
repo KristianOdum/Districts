@@ -19,12 +19,12 @@ public partial class App : Application
 
         services.AddLogging(logging => logging.AddConsole());
 
-        services.AddHttpClient<DistrictApiClient>(client =>
+        services.AddHttpClient<IDistrictApiClient, DistrictApiClient>(client =>
         {
             client.BaseAddress = new Uri("http://localhost:5294/");
         });
 
-        services.AddHttpClient<SalespersonApiClient>(client =>
+        services.AddHttpClient<ISalespersonApiClient, SalespersonApiClient>(client =>
         {
             client.BaseAddress = new Uri("http://localhost:5294/");
         });
