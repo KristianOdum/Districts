@@ -8,8 +8,8 @@ using Microsoft.Extensions.Logging;
 namespace Districts.Wpf.ViewModels;
 
 public class MainViewModel(
-    DistrictApiClient districtApiClient,
-    SalespersonApiClient salespersonApiClient,
+    IDistrictApiClient districtApiClient,
+    ISalespersonApiClient salespersonApiClient,
     ILogger<MainViewModel> logger) : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;

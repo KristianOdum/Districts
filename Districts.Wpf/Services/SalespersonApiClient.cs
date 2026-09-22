@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Districts.Wpf.Services;
 
-public class SalespersonApiClient(HttpClient httpClient, ILogger<SalespersonApiClient> logger)
+public class SalespersonApiClient(HttpClient httpClient, ILogger<SalespersonApiClient> logger) : ISalespersonApiClient
 {
     public async Task<List<SalespersonModel>> GetSalespersonsAsync()
     {

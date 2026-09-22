@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Districts.Wpf.Services;
 
-public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient> logger)
+public class DistrictApiClient(HttpClient httpClient, ILogger<DistrictApiClient> logger) : IDistrictApiClient
 {
     public async Task<List<DistrictModel>> GetDistrictsAsync()
     {
