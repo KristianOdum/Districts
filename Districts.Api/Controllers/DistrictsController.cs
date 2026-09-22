@@ -1,4 +1,5 @@
-﻿using Districts.Api.Dtos;
+﻿using System.ComponentModel.DataAnnotations;
+using Districts.Api.Dtos;
 using Districts.Application.Commands;
 using Districts.Application.Queries;
 using Districts.Application.Interfaces;

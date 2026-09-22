@@ -1,4 +1,5 @@
-﻿using Districts.Application.Interfaces;
+﻿using Districts.Api.Infrastructure;
+using Districts.Application.Interfaces;
 using Districts.Domain.Models;
 
 namespace Districts.Application.Commands;
@@ -27,7 +28,7 @@ public class RemoveSalespersonFromDistrictCommandHandler(
                 break;
 
             case SalespersonRole.Primary:
-                throw new InvalidOperationException(
+                throw new BusinessRuleViolationException(
                     "A district must always have a primary salesperson.");
 
             default:

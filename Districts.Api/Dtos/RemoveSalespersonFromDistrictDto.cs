@@ -1,4 +1,5 @@
-﻿using Districts.Domain.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using Districts.Domain.Models;
 
 namespace Districts.Api.Dtos;
 

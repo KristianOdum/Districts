@@ -1,17 +1,17 @@
 @ApiHost = http://localhost:5294
 #@ApiHost = https://localhost:7026
 
-DELETE {{ApiHost}}/api/districts/1/salespersons/4?role=Secondary
+DELETE {{ApiHost}}/api/districts/1/salespersons/2?role=Primary
 Accept: application/json
 
 ###
 
-GET {{ApiHost}}/api/salespersons
+GET {{ApiHost}}/api/salespersadsons
 Accept: application/json
 
 ###
 
-POST {{ApiHost}}/api/districts/1/salespersons
+POST {{ApiHost}}/api/districtss/1/salespersons
 Accept: application/json
 Content-Type: application/json
 
@@ -38,11 +38,6 @@ Accept: application/json
 
 ###
 
-GET {{ApiHost}}/api/districts/999
-Accept: application/json
-
-###
-
 GET {{ApiHost}}/api/districts
 Accept: application/json
 
@@ -50,5 +45,43 @@ Accept: application/json
 
 GET {{ApiHost}}/api/test/database-connection
 Accept: application/json
+
+###
+
+# Error scenarios
+
+GET {{ApiHost}}/api/districts/999
+Accept: application/json
+
+###
+
+DELETE {{ApiHost}}/api/districts/1/salespersons/2?role=Primary
+Accept: application/json
+
+###
+
+DELETE {{ApiHost}}/api/districts/1/salespersons/2?role=Blablabla
+Accept: application/json
+
+###
+
+GET {{ApiHost}}/api/districts/0
+Accept: application/json
+
+###
+
+GET {{ApiHost}}/api/salespersons
+Accept: application/json
+
+###
+
+POST {{ApiHost}}/api/districts/1/salespersons
+Accept: application/json
+Content-Type: application/json
+
+{
+  "salespersonId": 1,
+  "role": "Secondary"
+}
 
 ###
