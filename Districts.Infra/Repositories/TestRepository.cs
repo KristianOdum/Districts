@@ -1,8 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Districts.Application.Interfaces;
+using Microsoft.Data.SqlClient;
 
 namespace Districts.Infra.Repositories;
 
-public class TestRepository(string connectionString)
+public class TestRepository(string connectionString) : ITestRepository
 {
     public async Task TestConnectionAsync()
     {

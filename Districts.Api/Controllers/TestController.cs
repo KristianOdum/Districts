@@ -1,11 +1,11 @@
-﻿using Districts.Infra.Repositories;
+﻿using Districts.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Districts.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TestController(TestRepository repository) : ControllerBase
+public class TestController(ITestRepository repository) : ControllerBase
 {
     [HttpGet("database-connection")]
     public async Task<IActionResult> TestDatabase()
